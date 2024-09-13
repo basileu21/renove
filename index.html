@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renovação de IPTV</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Renove seu Acesso IPTV</h1>
+        <nav>
+            <ul>
+                <li><a href="#opcoes">Opções</a></li>
+                <li><a href="#compra">Comprar</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="opcoes">
+        <h2>Escolha sua Opção de Renovação</h2>
+        <div class="opcao">
+            <h3>Plano Mensal</h3>
+            <p>Renove por um mês.</p>
+            <p>R$ 35,00</p>
+            <a href="#compra" class="btn">Comprar Agora</a>
+        </div>
+        <div class="opcao">
+            <h3>Plano Trimestral</h3>
+            <p>Renove por três meses.</p>
+            <p>R$ 90,00</p>
+            <a href="#compra" class="btn">Comprar Agora</a>
+        </div>
+        <div class="opcao">
+            <h3>Plano Anual</h3>
+            <p>Renove por um ano.</p>
+            <p>R$ 200,00</p>
+            <a href="#compra" class="btn">Comprar Agora</a>
+        </div>
+    </section>
+
+    <section id="compra">
+        <h2>Finalizar Compra</h2>
+        <p>Escolha seu método de pagamento e finalize a compra.</p>
+        <form action="#" method="POST" id="payment-form">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+            
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="plano">Selecione o Plano:</label>
+            <select id="plano" name="plano" required>
+                <option value="mensal">Plano Mensal - R$ 35,00</option>
+                <option value="trimestral">Plano Trimestral - R$ 90,00</option>
+                <option value="anual">Plano Anual - R$ 200,00</option>
+            </select>
+            
+            <label for="pagamento">Escolha o Método de Pagamento:</label>
+            <select id="pagamento" name="pagamento" required>
+                <option value="pix">Pix</option>
+            </select>
+            
+            <button type="button" class="btn" onclick="finalizarCompra()">Finalizar Compra</button>
+        </form>
+        <p id="whatsapp-info">Após o pagamento, envie o comprovante para <a href="https://api.whatsapp.com/send?phone=27997294468" target="_blank">WhatsApp</a> para completar sua compra.</p>
+    </section>
+
+    <section id="contato">
+        <h2>Entre em Contato</h2>
+        <p>Para mais informações, entre em contato conosco.</p>
+        <ul class="social-links">
+            <li><a href="https://www.facebook.com" target="_blank">Facebook</a></li>
+            <li><a href="https://www.instagram.com" target="_blank">Instagram</a></li>
+            <li><a href="https://api.whatsapp.com/send?phone=27997294468" target="_blank">WhatsApp</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Renovação IPTV. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Modal para exibir chave Pix -->
+    <div id="modal-chaves" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharModal()">&times;</span>
+            <h2>Informação de Pagamento</h2>
+            <p>Para finalizar sua compra via Pix, utilize a seguinte chave:</p>
+            <p><strong>rafaelbasileu7@gmail.com</strong></p>
+            <p>Após o pagamento, envie o comprovante para <a href="https://api.whatsapp.com/send?phone=27997294468" target="_blank">WhatsApp</a> para completar sua compra.</p>
+        </div>
+    </div>
+
+    <script>
+        function finalizarCompra() {
+            var nome = document.getElementById('nome').value;
+            var email = document.getElementById('email').value;
+            var plano = document.getElementById('plano').value;
+            var mensagem = `Olá, gostaria de renovar meu acesso ao IPTV.\n\nNome: ${nome}\nE-mail: ${email}\nPlano: ${plano}\n\nPor favor, finalize a compra e envie o comprovante de pagamento.`;
+            var url = `https://api.whatsapp.com/send?phone=27997294468&text=${encodeURIComponent(mensagem)}`;
+            window.location.href = url;
+        }
+
+        function mostrarChavePix() {
+            document.getElementById('modal-chaves').style.display = 'block';
+        }
+
+        function fecharModal() {
+            document.getElementById('modal-chaves').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('modal-chaves')) {
+                fecharModal();
+            }
+        }
+    </script>
+</body>
+</html>
