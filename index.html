@@ -5,6 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Renovação de IPTV</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Adicionando estilo para o modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        /* Estilos adicionais para responsividade e acessibilidade */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .opcao {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .opcao p {
+            margin: 0;
+        }
+
+        .social-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .social-links li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        .social-links a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .modal-content {
+                width: 95%;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -62,7 +179,7 @@
                 <option value="pix">Pix</option>
             </select>
             
-            <button type="button" class="btn" onclick="finalizarCompra()">Finalizar Compra</button>
+            <button type="button" class="btn" onclick="mostrarChavePix()">Finalizar Compra</button>
         </form>
         <p id="whatsapp-info">Após o pagamento, envie o comprovante para <a href="https://api.whatsapp.com/send?phone=27997294468" target="_blank">WhatsApp</a> para completar sua compra.</p>
     </section>
@@ -93,15 +210,6 @@
     </div>
 
     <script>
-        function finalizarCompra() {
-            var nome = document.getElementById('nome').value;
-            var email = document.getElementById('email').value;
-            var plano = document.getElementById('plano').value;
-            var mensagem = `Olá, gostaria de renovar meu acesso ao IPTV.\n\nNome: ${nome}\nE-mail: ${email}\nPlano: ${plano}\n\nPor favor, finalize a compra e envie o comprovante de pagamento.`;
-            var url = `https://api.whatsapp.com/send?phone=27997294468&text=${encodeURIComponent(mensagem)}`;
-            window.location.href = url;
-        }
-
         function mostrarChavePix() {
             document.getElementById('modal-chaves').style.display = 'block';
         }
@@ -114,6 +222,47 @@
             if (event.target == document.getElementById('modal-chaves')) {
                 fecharModal();
             }
+        }
+
+        // Validação e feedback
+        document.getElementById('payment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (validateForm()) {
+                finalizarCompra();
+            }
+        });
+
+        function validateForm() {
+            var nome = document.getElementById('nome').value;
+            var email = document.getElementById('email').value;
+            var plano = document.getElementById('plano').value;
+            var pagamento = document.getElementById('pagamento').value;
+
+            if (!nome || !email || !plano || !pagamento) {
+                alert('Por favor, preencha todos os campos.');
+                return false;
+            }
+
+            if (!validateEmail(email)) {
+                alert('Por favor, insira um e-mail válido.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function validateEmail(email) {
+            var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function finalizarCompra() {
+            var nome = document.getElementById('nome').value;
+            var email = document.getElementById('email').value;
+            var plano = document.getElementById('plano').value;
+            var mensagem = `Olá, gostaria de renovar meu acesso ao IPTV.\n\nNome: ${nome}\nE-mail: ${email}\nPlano: ${plano}\n\nPor favor, finalize a compra e envie o comprovante de pagamento.`;
+            var url = `https://api.whatsapp.com/send?phone=27997294468&text=${encodeURIComponent(mensagem)}`;
+            window.location.href = url;
         }
     </script>
 </body>
